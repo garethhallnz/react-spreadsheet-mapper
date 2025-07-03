@@ -1,6 +1,6 @@
 {
   "name": "react-spreadsheet-mapper",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": false,
   "description": "A headless React library for mapping spreadsheet data.",
   "main": "dist/index.js",
