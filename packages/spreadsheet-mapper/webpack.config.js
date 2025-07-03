@@ -2,13 +2,14 @@ const path = require('path');
 
 module.exports = {
   mode: 'production', // or 'development'
-  entry: './useSpreadsheetMapper.ts', // Main entry point for the library
+  entry: './index.ts', // Main entry point for the library
   output: {
     filename: 'index.js',
     path: path.resolve(__dirname, 'dist'),
     library: {
       name: 'spreadsheetMapper',
       type: 'umd',
+      export: 'default',
     },
     globalObject: 'this',
   },
@@ -19,8 +20,18 @@ module.exports = {
     rules: [
       {
         test: /\.(ts|tsx)$/,
-        exclude: /node_modules/,
-        use: 'ts-loader',
+        exclude: [
+          /node_modules/,
+          /examples/,
+          /\.test\.(ts|tsx)$/,
+          /\.spec\.(ts|tsx)$/
+        ],
+        use: {
+          loader: 'ts-loader',
+          options: {
+            configFile: 'tsconfig.json'
+          }
+        },
       },
     ],
   },

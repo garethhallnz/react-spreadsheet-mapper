@@ -3,12 +3,28 @@
   "version": "0.1.0",
   "private": false,
   "description": "A headless React library for mapping spreadsheet data.",
-  "main": "useSpreadsheetMapper.js",
-  "types": "dist/useSpreadsheetMapper.d.ts",
+  "main": "dist/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/esm/index.js",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist/",
+    "README.md",
+    "LICENSE"
+  ],
   "scripts": {
-    "build": "webpack --config webpack.config.js",
+    "build": "rm -rf dist && tsc && tsc -p tsconfig.esm.json",
     "test": "echo 'Test script not yet implemented'",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "prepublishOnly": "npm run build",
+    "publish:beta": "npm publish --tag beta",
+    "publish:latest": "npm publish"
   },
   "repository": {
     "type": "git",
