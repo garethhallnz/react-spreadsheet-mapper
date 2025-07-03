@@ -1,0 +1,52 @@
+{
+  "name": "react-spreadsheet-mapper",
+  "version": "0.1.0",
+  "private": false,
+  "description": "A headless React library for mapping spreadsheet data.",
+  "main": "useSpreadsheetMapper.js",
+  "types": "dist/useSpreadsheetMapper.d.ts",
+  "scripts": {
+    "build": "webpack --config webpack.config.js",
+    "test": "echo 'Test script not yet implemented'",
+    "lint": "eslint ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/garethhallnz/react-spreadsheet-mapper.git"
+  },
+  "keywords": [
+    "react",
+    "spreadsheet",
+    "excel",
+    "csv",
+    "mapper",
+    "importer",
+    "headless",
+    "react-hooks",
+    "data-import",
+    "data-mapping",
+    "file-upload",
+    "typescript",
+    "open-source",
+    "monorepo",
+    "ui-agnostic"
+  ],
+  "author": "Gareth Hall <garethhall79@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/garethhallnz/react-spreadsheet-mapper/issues"
+  },
+  "homepage": "https://github.com/garethhallnz/react-spreadsheet-mapper#readme",
+  "peerDependencies": {
+    "react": ">=16.8.0"
+  },
+  "dependencies": {
+    "xlsx": "^0.16.8"
+  },
+  "devDependencies": {
+    "react": "^17.0.1",
+    "ts-loader": "^9.5.2",
+    "webpack": "^5.99.9",
+    "webpack-cli": "^6.0.1"
+  }
+}

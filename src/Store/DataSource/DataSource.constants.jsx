@@ -1,8 +1,0 @@
-const dataSourceConstants = {
-  SAVE_DATA_SOURCE: 'SAVE_DATA_SOURCE',
-  ERASE_DATA_SOURCE: 'ERASE_DATA_SOURCE',
-  UPDATE_DATA_SOURCE: 'UPDATE_DATE_SOURCE',
-  UPDATE_REPORTABLE: 'UPDATE_REPORTABLE',
-};
-
-export default dataSourceConstants;
