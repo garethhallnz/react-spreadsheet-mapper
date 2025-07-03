@@ -261,17 +261,24 @@ Try out Spreadsheet Mapper with different UI frameworks:
 
 ```bash
 # Clone the repository
-git clone https://github.com/your-username/react-spreadsheet-mapper.git
+git clone https://github.com/garethhallnz/react-spreadsheet-mapper.git
 cd react-spreadsheet-mapper
 
 # Install dependencies
 npm install
 
-# Start any example
+# Interactive example selector (recommended)
+npm start
+
+# Or start a specific example directly
+npm run start:example:minimal
 npm run start:example:material-ui
 npm run start:example:ant-design
 npm run start:example:shadcn-ui
-# ... or any other example
+npm run start:example:mantine
+npm run start:example:react-bootstrap
+npm run start:example:flowbite-react
+npm run start:example:advanced
 ```
 
 ## 🔧 Configuration Options
@@ -424,7 +431,7 @@ react-spreadsheet-mapper/
 
 ```bash
 # Clone the repository
-git clone https://github.com/your-username/react-spreadsheet-mapper.git
+git clone https://github.com/garethhallnz/react-spreadsheet-mapper.git
 cd react-spreadsheet-mapper
 
 # Install dependencies
@@ -475,9 +482,9 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📞 Support
 
-- 📖 [Documentation](https://github.com/your-username/react-spreadsheet-mapper/wiki)
-- 🐛 [Issue Tracker](https://github.com/your-username/react-spreadsheet-mapper/issues)
-- 💬 [Discussions](https://github.com/your-username/react-spreadsheet-mapper/discussions)
+- 📖 [Documentation](https://github.com/garethhallnz/react-spreadsheet-mapper/wiki)
+- 🐛 [Issue Tracker](https://github.com/garethhallnz/react-spreadsheet-mapper/issues)
+- 💬 [Discussions](https://github.com/garethhallnz/react-spreadsheet-mapper/discussions)
 
 ---
 
