@@ -19,6 +19,7 @@ import {
   Alert,
   LinearProgress,
   Chip,
+  ChipProps,
   Paper,
   Divider,
   Accordion,
@@ -121,12 +122,25 @@ const ConfigurationForm: React.FC<{
     const keys = path.split('.');
     let current: Record<string, unknown> = newConfig as Record<string, unknown>;
     
+    // Type guard to ensure keys exist and are valid
+    if (keys.length === 0) return;
+    
     for (let i = 0; i < keys.length - 1; i++) {
-      current = current[keys[i]];
+      const key = keys[i];
+      if (key === undefined) return;
+      
+      // Ensure the current object exists and has the key
+      if (current[key] === undefined || current[key] === null) {
+        current[key] = {};
+      }
+      current = current[key] as Record<string, unknown>;
     }
     
-    current[keys[keys.length - 1]] = value;
-    onConfigChange(newConfig);
+    const lastKey = keys[keys.length - 1];
+    if (lastKey !== undefined) {
+      current[lastKey] = value;
+      onConfigChange(newConfig);
+    }
   };
 
   const formatFileSize = (bytes: number) => {
@@ -188,7 +202,7 @@ const ConfigurationForm: React.FC<{
           </AccordionSummary>
           <AccordionDetails>
             <Grid container spacing={2}>
-              <Grid item xs={12} md={6}>
+              <Grid size={{ xs: 12, md: 6 }}>
                 <TextField
                   fullWidth
                   label="Header Row"
@@ -199,7 +213,7 @@ const ConfigurationForm: React.FC<{
                   inputProps={{ min: 1, max: 10 }}
                 />
               </Grid>
-              <Grid item xs={12} md={6}>
+              <Grid size={{ xs: 12, md: 6 }}>
                 <TextField
                   fullWidth
                   label="Data Start Row"
@@ -210,7 +224,7 @@ const ConfigurationForm: React.FC<{
                   inputProps={{ min: 1, max: 20 }}
                 />
               </Grid>
-              <Grid item xs={12} md={6}>
+              <Grid size={{ xs: 12, md: 6 }}>
                 <TextField
                   fullWidth
                   label="Sheet Index"
@@ -221,7 +235,7 @@ const ConfigurationForm: React.FC<{
                   inputProps={{ min: 0, max: 10 }}
                 />
               </Grid>
-              <Grid item xs={12} md={6}>
+              <Grid size={{ xs: 12, md: 6 }}>
                 <TextField
                   fullWidth
                   label="Preview Row Count"
@@ -232,7 +246,7 @@ const ConfigurationForm: React.FC<{
                   inputProps={{ min: 1, max: 100 }}
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid size={{ xs: 12 }}>
                 <FormControlLabel
                   control={
                     <Switch
@@ -258,7 +272,7 @@ const ConfigurationForm: React.FC<{
           </AccordionSummary>
           <AccordionDetails>
             <Grid container spacing={2}>
-              <Grid item xs={12}>
+              <Grid size={{ xs: 12 }}>
                 <Typography gutterBottom>
                   Max File Size: {formatFileSize(config.security.maxFileSize)}
                 </Typography>
@@ -273,7 +287,7 @@ const ConfigurationForm: React.FC<{
                 />
                 <FormHelperText>Maximum allowed file size for uploads</FormHelperText>
               </Grid>
-              <Grid item xs={12} md={6}>
+              <Grid size={{ xs: 12, md: 6 }}>
                 <TextField
                   fullWidth
                   label="Max Files Per Window"
@@ -284,7 +298,7 @@ const ConfigurationForm: React.FC<{
                   inputProps={{ min: 1, max: 100 }}
                 />
               </Grid>
-              <Grid item xs={12} md={6}>
+              <Grid size={{ xs: 12, md: 6 }}>
                 <TextField
                   fullWidth
                   label="Rate Limit Window (ms)"
@@ -295,7 +309,7 @@ const ConfigurationForm: React.FC<{
                   inputProps={{ min: 1000, max: 300000 }}
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid size={{ xs: 12 }}>
                 <FormControlLabel
                   control={
                     <Switch
@@ -321,7 +335,7 @@ const ConfigurationForm: React.FC<{
           </AccordionSummary>
           <AccordionDetails>
             <Grid container spacing={2}>
-              <Grid item xs={12}>
+              <Grid size={{ xs: 12 }}>
                 <Typography gutterBottom>
                   Chunk Size: {formatFileSize(config.performance.chunkSize)}
                 </Typography>
@@ -336,7 +350,7 @@ const ConfigurationForm: React.FC<{
                 />
                 <FormHelperText>Size of each chunk when processing large files</FormHelperText>
               </Grid>
-              <Grid item xs={12} md={6}>
+              <Grid size={{ xs: 12, md: 6 }}>
                 <TextField
                   fullWidth
                   label="Processing Throttle (ms)"
@@ -347,7 +361,7 @@ const ConfigurationForm: React.FC<{
                   inputProps={{ min: 0, max: 1000 }}
                 />
               </Grid>
-              <Grid item xs={12} md={6}>
+              <Grid size={{ xs: 12, md: 6 }}>
                 <TextField
                   fullWidth
                   label="Max Concurrent Files"
@@ -358,7 +372,7 @@ const ConfigurationForm: React.FC<{
                   inputProps={{ min: 1, max: 10 }}
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid size={{ xs: 12 }}>
                 <FormGroup>
                   <FormControlLabel
                     control={
@@ -394,7 +408,7 @@ const ConfigurationForm: React.FC<{
           </AccordionSummary>
           <AccordionDetails>
             <Grid container spacing={2}>
-              <Grid item xs={12}>
+              <Grid size={{ xs: 12 }}>
                 <FormGroup>
                   <FormControlLabel
                     control={
@@ -416,11 +430,23 @@ const ConfigurationForm: React.FC<{
                   />
                 </FormGroup>
               </Grid>
-              <Grid item xs={12}>
-                <Alert severity="info" sx={{ mt: 1 }}>
-                  <AlertTitle>ARIA Labels</AlertTitle>
-                  ARIA labels are automatically updated based on your configuration changes to ensure optimal accessibility.
-                </Alert>
+              <Grid size={{ xs: 12, md: 6 }}>
+                <TextField
+                  fullWidth
+                  label="File Input Label"
+                  value={config.accessibility.ariaLabels.fileInput}
+                  onChange={(e) => updateConfig('accessibility.ariaLabels.fileInput', e.target.value)}
+                  helperText="ARIA label for file input"
+                />
+              </Grid>
+              <Grid size={{ xs: 12, md: 6 }}>
+                <TextField
+                  fullWidth
+                  label="Mapping Select Label"
+                  value={config.accessibility.ariaLabels.mappingSelect}
+                  onChange={(e) => updateConfig('accessibility.ariaLabels.mappingSelect', e.target.value)}
+                  helperText="ARIA label for mapping select"
+                />
               </Grid>
             </Grid>
           </AccordionDetails>
@@ -645,7 +671,7 @@ const App: React.FC = () => {
 
   // Monitor performance metrics for debugging in development
   useEffect(() => {
-    if (performanceMetrics.length > 0 && process.env.NODE_ENV === 'development') {
+    if (performanceMetrics.length > 0 && process.env['NODE_ENV'] === 'development') {
       console.log('Performance metrics updated:', performanceMetrics);
     }
   }, [performanceMetrics]);
@@ -769,22 +795,26 @@ const App: React.FC = () => {
             </Typography>
             <LinearProgress sx={{ mb: 2 }} />
             <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
-              {fileProcessingStates.map((state, index) => (
-                <Chip
-                  key={index}
-                  label={`${state.file.name}: ${state.status}`}
-                  color={
+              {fileProcessingStates.map((state, index) => {
+                const chipProps: Partial<ChipProps> = {
+                  key: index,
+                  label: `${state.file.name}: ${state.status}`,
+                  color: 
                     state.status === 'completed' ? 'success' :
                     state.status === 'error' ? 'error' :
                     state.status === 'processing' ? 'info' : 'default'
-                  }
-                  icon={
-                    state.status === 'completed' ? <CheckCircleIcon /> :
-                    state.status === 'error' ? <ErrorIcon /> :
-                    state.status === 'processing' ? <CircularProgress size={16} /> : undefined
-                  }
-                />
-              ))}
+                };
+                
+                if (state.status === 'completed') {
+                  chipProps.icon = <CheckCircleIcon />;
+                } else if (state.status === 'error') {
+                  chipProps.icon = <ErrorIcon />;
+                } else if (state.status === 'processing') {
+                  chipProps.icon = <CircularProgress size={16} />;
+                }
+                
+                return <Chip {...chipProps} />;
+              })}
             </Box>
           </CardContent>
         </Card>
@@ -799,19 +829,19 @@ const App: React.FC = () => {
               Performance Summary
             </Typography>
             <Grid container spacing={2}>
-              <Grid item xs={6} md={3}>
+              <Grid size={{ xs: 6, md: 3 }}>
                 <Typography variant="body2" color="text.secondary">Files Processed</Typography>
                 <Typography variant="h6">{performanceSummary.totalFiles}</Typography>
               </Grid>
-              <Grid item xs={6} md={3}>
+              <Grid size={{ xs: 6, md: 3 }}>
                 <Typography variant="body2" color="text.secondary">Total Size</Typography>
                 <Typography variant="h6">{(performanceSummary.totalSize / 1024 / 1024).toFixed(2)}MB</Typography>
               </Grid>
-              <Grid item xs={6} md={3}>
+              <Grid size={{ xs: 6, md: 3 }}>
                 <Typography variant="body2" color="text.secondary">Total Rows</Typography>
                 <Typography variant="h6">{performanceSummary.totalRows.toLocaleString()}</Typography>
               </Grid>
-              <Grid item xs={6} md={3}>
+              <Grid size={{ xs: 6, md: 3 }}>
                 <Typography variant="body2" color="text.secondary">Avg Processing Time</Typography>
                 <Typography variant="h6">{performanceSummary.averageProcessingTime.toFixed(0)}ms</Typography>
               </Grid>
@@ -874,15 +904,15 @@ const App: React.FC = () => {
                   const isRequired = option.required;
 
                   return (
-                    <Grid item xs={12} md={6} lg={4} key={option.value}>
+                    <Grid size={{ xs: 12, md: 6, lg: 4 }} key={option.value}>
                       <Paper sx={{ p: 2, border: isRequired && !isSaved ? 2 : 1, borderColor: isRequired && !isSaved ? 'warning.main' : 'divider' }}>
                         <FormControl fullWidth>
-                          <InputLabel required={isRequired}>
+                          <InputLabel {...(isRequired ? { required: true } : {})}>
                             {option.label} {isRequired && '*'}
                           </InputLabel>
                           <Select
                             value={mappedField ? mappedField.field : ''}
-                            disabled={isSaved}
+                            {...(isSaved ? { disabled: true } : {})}
                             onChange={(e) => {
                               updateOrCreate({
                                 field: e.target.value,

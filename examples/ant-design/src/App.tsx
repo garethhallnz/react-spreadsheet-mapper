@@ -12,7 +12,6 @@ import {
   Alert,
   Space,
   Layout,
-  Upload,
 } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import 'antd/dist/reset.css';
