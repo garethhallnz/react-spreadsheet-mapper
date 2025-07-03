@@ -125,7 +125,7 @@ const App: React.FC = () => {
                   const isSaved = mappedField && mappedField.saved;
 
                   return (
-                    <Grid item xs={12} md={4} key={option.value}>
+                    <Grid size={{ xs: 12, md: 4 }} key={option.value}>
                       <Typography variant="h6" gutterBottom>
                         {option.label}
                       </Typography>
@@ -134,7 +134,7 @@ const App: React.FC = () => {
                         <InputLabel>Select a column</InputLabel>
                         <Select
                           value={mappedField ? mappedField.field : ''}
-                          disabled={isSaved}
+                          disabled={!!isSaved}
                           onChange={(e) =>
                             updateOrCreate({
                               field: e.target.value,

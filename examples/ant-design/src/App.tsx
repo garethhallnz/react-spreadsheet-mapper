@@ -11,14 +11,12 @@ import {
   List,
   Alert,
   Space,
-  Layout,
 } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import 'antd/dist/reset.css';
 
 const { Title, Text } = Typography;
 const { Option } = Select;
-const { Content } = Layout;
 
 // Define types locally to match the hook's interface
 interface SpreadsheetData {
@@ -88,8 +86,8 @@ const App: React.FC = () => {
   };
 
   return (
-    <Layout style={{ minHeight: '100vh', background: '#f5f5f5' }}>
-      <Content style={{ padding: '50px', maxWidth: '1200px', margin: '0 auto', width: '100%' }}>
+    <div style={{ minHeight: '100vh', background: '#f5f5f5' }}>
+      <div style={{ padding: '50px', maxWidth: '1200px', margin: '0 auto', width: '100%' }}>
         <div style={{ textAlign: 'center', marginBottom: '48px' }}>
           <Title>Spreadsheet Mapper - Ant Design</Title>
           <Text type="secondary">Upload your spreadsheet files and map columns to data fields</Text>
@@ -166,7 +164,7 @@ const App: React.FC = () => {
                                 })
                               }
                               placeholder="Select a column"
-                              status={option.required && !mappedField ? 'error' : undefined}
+                              status={option.required && !mappedField ? 'error' : ''}
                             >
                               {getAvailableColumns(file, mappedField ? mappedField.field : '').map((column: string) => (
                                 <Option key={column} value={column}>
@@ -253,8 +251,8 @@ const App: React.FC = () => {
             </Card>
           )}
         </Space>
-      </Content>
-    </Layout>
+      </div>
+    </div>
   );
 };
 

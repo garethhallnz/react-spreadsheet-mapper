@@ -113,7 +113,7 @@ const App: React.FC = () => {
                         label={option.label}
                         placeholder="Select a column"
                         value={mappedField ? mappedField.field : null}
-                        disabled={isSaved}
+                        disabled={!!isSaved}
                         onChange={(value) =>
                           updateOrCreate({
                             field: value || '',
